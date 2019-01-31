@@ -1,0 +1,433 @@
+/*
+Theme Name: CTAUN
+
+*/
+/** * Table of Contents:* * 1.0 - Reset * 2.0 - Repeatable Patterns * 3.0 - Basic Structure * 4.0 - Header * 5.0 - Navigation * 6.0 - Content *   6.1 - Post Thumbnail *   6.2 - Entry Header *   6.3 - Entry Meta *   6.4 - Entry Content *   6.5 - Galleries *   6.6 - Post Formats *   6.7 - Post/Image/Paging Navigation *   6.8 - Attachments *   6.9 - Archives *   6.10 - Contributor Page *   6.11 - 404 Page *   6.12 - Full-width *   6.13 - Singular *   6.14 - Comments * 7.0 - Sidebar *   7.1 - Widgets *   7.2 - Content Sidebar Widgets * 8.0 - Footer * 9.0 - Featured Content * 10.0 - Multisite * 11.0 - Media Queries * 12.0 - Print * ----------------------------------------------------------------------------- */
+/** * 1.0 Reset * * Resetting and rebuilding styles have been helped along thanks to the fine * work of Eric Meyer http://meyerweb.com/eric/tools/css/reset/index.html * along with Nicolas Gallagher and Jonathan Neal * http://necolas.github.com/normalize.css/ and Blueprint * http://www.blueprintcss.org/ * * ----------------------------------------------------------------------------- */
+@import url(https://fonts.googleapis.com/css?family=Lato:300,400,700,900);
+@import "partials/colors";
+@import "partials/template"; //original theme
+
+h4
+ {
+  line-height: 120%;
+  text-align: center;
+  
+  margin:0px auto;
+
+}
+.sidebar{
+ 
+ padding-top: 2em;
+}
+
+
+body {
+  font: 400 1.5em/1.8 "Lato", sans-serif;
+}
+.whitebg{
+  background:#fff;
+  border-radius:5%;
+  
+}
+.wrap{
+  padding:25px;
+}
+.home-slide-wrap{
+  background:#000;
+}
+.teacher-resourcesbg {
+  background: $resources_purple;
+
+}
+
+.awardsbg {
+  background: $awards_bronze;
+
+}
+.conferencesbg {
+  background: $conferences_green;
+}
+
+.aboutbg{
+  background: $about_blue;
+}
+
+
+@import "partials/template";
+@import "partials/megamenu";
+@import "partials/header";
+@import "partials/main";
+@import "partials/hero";
+@import "partials/sidebar";
+@import "partials/books";
+@import "partials/video";
+@import "partials/resource";
+
+//@import "partials/schedule";
+//@import "partials/speakers";
+//@import "partials/sponsors";
+//@import "partials/slick";
+//@import "partials/lava";
+//@import "partials/particles";
+
+h1{
+  @media(max-width:1024px){
+    padding-left:1em;
+  }
+}
+
+.row {
+  overflow: hidden;
+}
+/*
+[class*="col-"] {
+  margin-bottom: -99999px;
+  padding-bottom: 99999px;
+}
+*/
+
+.hero-slide{
+  font-size:3em;
+  color:#fff;
+  text-shadow:2px 2px #4e473f;
+  font-weight:700;
+  line-height: 100%;
+  text-transform:uppercase;
+  margin:0px auto 1em;
+  text-align: center;
+  letter-spacing:.1em;
+      @media(max-width: 539px) {
+        max-width: 90%;
+        font-size: 6vw;
+        word-wrap: break-word;
+      }
+
+      @media(min-width: 540px) and (max-width: 767px) {
+        max-width: 90%;
+        font-size: 4vw;
+        word-wrap: break-word;
+      }
+
+}
+.caption-content{
+    a.btn{
+      color:#ddd;
+      border-radius:10px;
+      border:2px solid #ddd;
+    }
+    a.btn:hover{
+      background: rgba(78,71,63,0.7);
+      color:#fff;
+
+      border:2px solid #ddd;
+    }
+
+}
+section.module {
+   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+   margin-bottom:70px;
+}
+
+h2.module-title {
+  font-weight: 900;
+  font-size: 400%;
+  color: #0090D1
+}
+
+h3.section-head {
+  font-weight: bold;
+  color: #a057a2;
+  text-align: center;
+  font-size: 150%;
+}
+
+h4.section-prime {
+  font-weight: bold;
+  border-bottom: 3px dashed #f58669;
+  padding-bottom: 1em;
+  margin-bottom: 1em;
+  text-align: center;
+  font-size: 120%;
+  color: #419B4E;
+}
+
+
+h3 {
+  font-size: 24px;
+  color: #5c90c2;
+  text-align: right;
+  border-bottom: 2px solid #5c90c2;
+}
+h2 {
+  font-size: 30px;
+  color: #595350;
+  text-transform: uppercase;
+  margin-top: 0px;
+  font-weight: 700;
+}
+h3 {
+  font-size: 24px;
+  color:#5c90c2;
+  text-align: right;
+  border-bottom:2px solid #5c90c2;
+
+}
+h4{
+  font-size:20px;
+  color: #906f42;
+  margin-top:0px;
+}
+.navbar-right{
+  margin-right:1em;
+  
+}
+.navbar-nav>li>a {
+  padding: 10px;
+}
+.caption-content a.btn {
+  font-size: 1em;
+  text-shadow: 1px 1px #000;
+
+  @media(max-width: 539px) {
+    max-width: 90%;
+    font-size: 3vw;
+    word-wrap: break-word;
+  }
+  @media(min-width: 540px) and (max-width: 767px) {
+    max-width: 90%;
+    font-size: 2vw;
+    word-wrap: break-word;
+  }
+  p{
+    margin-bottom:0px;
+    text-transform:none;
+  }
+}
+
+
+.bg-dark {
+
+    background: linear-gradient(to bottom, #5c90c2 0%, #906f42 100%);
+
+  }
+  footer.bg-dark {
+
+      background: linear-gradient(to top, #5c90c2 0%, #906f42 100%);
+
+    }
+  .footer ul.social{
+
+  width:90%;
+  margin:0px auto;
+    float: right;
+    padding-left:0px;
+    @media(max-width: 767px) {
+
+    }
+    li{
+      width: 32px;
+      margin:0px 15px;
+    
+     list-style: none;
+      display: inline-block;
+      @media(max-width:767px){
+        text-align:center;
+       width:15%;
+      }
+      
+    }
+    li.svg-glyph a{
+      padding:10px;
+      opacity: 0.7;
+      img{
+        height: 24px;
+      }
+    }
+
+  }
+
+.panel-group {
+  margin-bottom: 0px;
+  border-color: none;
+}
+
+
+.panel-title {
+  font-size: 1em;
+}
+
+.panel-default {
+  border-color: none;
+  border-radius: 25px !important;
+}
+
+.session-time,
+.mobile-sesion.time {
+  float: right;
+  margin-right: 2em;
+  margin-top: -17px;
+  text-transform: none;
+  color: #fff !important;
+
+  @media(max-width: 767px) {
+    display: none;
+  }
+}
+
+.mobile-session-time {
+  display: block;
+  text-align: center;
+  margin: 0px auto;
+  font-weight: 900;
+
+  @media(min-width: 768px) {
+    display: none;
+  }
+}
+
+.module {
+  padding-top: 70px;
+}
+
+.panel-default>.panel-heading {
+  color: #ccc;
+  padding: 2em;
+  font-size: 150%;
+  background: linear-gradient(to top, $ctaun_blue 0%, $ctaun_blue 51%, $ctaun_green 100%);
+  
+
+  h4 a,
+  h4 a.collapsed {
+
+    color: #fff !important;
+
+  }
+
+  .speaker-name {
+    color: #ccc;
+  }
+
+  a {
+    display: inline;
+
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+}
+
+.panel-default>.panel-heading+.panel-collapse>.panel-body {
+  border-color: #8c002e;
+}
+
+.panel-body {
+  p, li {
+    
+    
+
+    @media(max-width: 1280px) {
+      clear: left;
+    }
+  }
+}
+
+.session-sponsors {
+  display: table;
+  padding-left: 1%;
+  width: 100%;
+}
+
+.session-sponsor {
+  display: table-cell;
+  width: 20%;
+  padding-right: 1%;
+  text-align: center;
+
+  img {
+    border-radius: 50%;
+  }
+}
+
+a.cta {
+
+  text-align: center;
+  margin: 3em auto 1em;
+  color: #fff;
+  font-weight: 900;
+  display: block;
+  display: block;
+  background-size: cover;
+
+
+  line-height: 150%;
+  transition: all .2s ease-in-out;
+
+}
+
+a.register {
+  background: url(/wp-content/uploads/2018/10/blue-aqua.png) center center no-repeat;
+  width: 303px;
+  height: 199px;
+  padding: 2em 0px;
+  font-size: 200%;
+}
+
+a.sponsor {
+  background: url(/wp-content/uploads/2018/10/red-pink.png) center center no-repeat;
+  width: 539px;
+  height: 387px;
+  padding: 9em 1em 0px;
+  font-size: 150%;
+  max-width: 100%;
+
+  span {
+    font-size: 150%;
+    display: block;
+    text-decoration: none;
+    margin-bottom: 0.5em;
+  }
+}
+
+a.cta:hover {
+
+  transform: scale(1.5);
+}
+
+.section-foot {
+  margin: 50px 0px;
+}
+
+.copyright{
+  font-size:1em;
+    @media(max-width: 539px) {
+      max-width: 90%;
+      font-size:2vw;
+      word-wrap: break-word;
+    }
+
+    @media(min-width: 540px) and (max-width: 767px) {
+      max-width: 90%;
+      font-size:1.5vw;
+      word-wrap: break-word;
+    }
+}
+
+.sidebar {
+  transition: all .2s ease-in-out;
+ box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+ padding-top: 2em;
+ border-radius:1em;
+  li{
+    list-style: none;
+    a:hover {
+
+      transform: scale(1.5);
+    }
+  }
+}
+main{
+  max-width: 1920px;
+  margin:0px auto;
+}
