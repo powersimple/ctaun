@@ -1,7 +1,6 @@
 <?php
     get_header();
-    $term = get_queried_object();
-    
+      $term = get_queried_object();
 ?>
     <div class="row">
         
@@ -10,9 +9,9 @@
 
                
                     <?php
-                
+              
 
-                    $cards = getResourcesByTaxonomy('resource_type',$term->slug);
+                    $cards = getResourcesByTaxonomy('post_tag',$term->name);
                             ?>
                   
                     
@@ -22,7 +21,7 @@
                        
                        //echo the_content();
                        ?>
-                            <ul id="resources">
+                            <div id="resources">
 
                        <?php
                        
@@ -37,7 +36,7 @@
 
 
                        ?>
-                        </ul>
+                        </div>
                     
                     </div>
                             

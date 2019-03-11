@@ -4,7 +4,7 @@
 
     <div class="row">
         
-                <h1><?php echo $post->post_title;?></h1>
+               
                 <div class="col-sm-8 ">
            
                
@@ -18,9 +18,14 @@
                             ?>
                   
                     
-                    <div class="panel-body">sfdsd
+                    <div class="panel-body" id="list-top">
+                     <h1 class="reverse"><?php echo $post->post_title;?></h1>
+                            <div class="panel-content">
                         <?php
+                         $profiles = getProfiles();
+                        displayProfilesList($profiles);
                        echo the_content()?>
+                        </div>
                     
                     
                     </div>
@@ -28,11 +33,10 @@
                     
                         <?php }
                     }
-                    $profiles = getProfiles();
-                    displayProfiles($profiles);
+                   
                     ?>
                 </div>
-                <div class="col-sm-4 col-md-3  sidebar scaffold">
+                <div class="col-sm-4 col-md-3  sidebar scaffold reverse">
                     <div class="box">
                         <?php dynamic_sidebar("page-sidebar");?>
                     </div>

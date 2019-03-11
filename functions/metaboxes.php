@@ -48,7 +48,7 @@ function selectHeroImage( $meta_boxes ) {
 	$meta_boxes[] = array(
 		'id' => 'hero',
 		'title' => esc_html__( 'Hero Image', 'metabox-online-generator' ),
-		'post_types' => array('post', 'page' ),
+		'post_types' => array('post', 'page','resource','profile','conference','award','sdg' ),
 		'context' => 'side',
 		'priority' => 'default',
 		'autosave' => 'false',
@@ -132,7 +132,37 @@ function setSessionSpeakers( $meta_boxes ) {
 add_filter( 'rwmb_meta_boxes', 'setSessionSpeakers' );
 
 
+function setSubNav( $meta_boxes ) {
+	$prefix = '';
 
+	$meta_boxes[] = array(
+		'id' => 'session-speakers',
+		'title' => esc_html__( 'Speakers', 'metabox-online-generator' ),
+		'post_types' => array('post', 'page','resource','award','profile'),
+		'context' => 'side',
+		'priority' => 'default',
+		'autosave' => 'false',
+		'fields' => array(
+			array(
+				'id' => $prefix . 'subnav',
+				'name' => esc_html__( 'Select Subnav', 'metabox-online-generator' ),
+				'type' => 'select',
+				'placeholder' => esc_html__( 'Select an Item', 'metabox-online-generator' ),
+				'options' => array(
+					'children' => 'Page Children',
+					'siblings' => 'Siblings',
+					'award' => 'Awards',
+					'conference' => 'Conferences',
+					'resources' => 'Resources',
+					
+				),
+			),
+		),
+	);
+
+	return $meta_boxes;
+}
+add_filter( 'rwmb_meta_boxes', 'setSubnav' );
 
 
 
@@ -396,7 +426,7 @@ add_filter( 'rwmb_meta_boxes', 'setReviewInfo' );
 
 function setResourceInfo( $meta_boxes ) {
 	$prefix = '';
-		$scrape_link= "<a href='#' onclick='scrapeResourceURL()'>Scrape</a>";
+//$scrape_link= "<a href='#' onclick='scrapeResourceURL()'>Scrape</a>";
 	$meta_boxes[] = array(
 		'id' => 'resource_info',
 		'title' => esc_html__( "Resource Info", 'metabox-online-generator' ),
@@ -424,7 +454,7 @@ function setResourceInfo( $meta_boxes ) {
 				'id' => $prefix . 'link',
 				'type' => 'url',
 				'name' => esc_html__( "Resource URL  ", 'metabox-online-generator' ),
-				'desc' => esc_html__( "Scrape $scrape_link", 'metabox-online-generator' ),
+				'desc' => esc_html__( "", 'metabox-online-generator' ),
 				'placeholder' => esc_html__( 'https://', 'metabox-online-generator' ),
 			),
 			array(
@@ -760,6 +790,87 @@ function getProperties( $meta_boxes ) {
 	return $meta_boxes;
 }
 add_filter( 'rwmb_meta_boxes', 'getProperties' );
+
+
+
+function eventMeta( $meta_boxes ) {
+	$prefix = '';
+
+	$meta_boxes[] = array(
+		'id' => 'sdg',
+		'title' => esc_html__( 'Event Data', 'metabox-online-generator' ),
+		'post_types' => array('event' ),
+		'context' => 'side',
+		'priority' => 'default',
+		'autosave' => 'false',
+		'fields' => array(
+			array(
+				'id' => $prefix . 'event_type',
+				'name' => esc_html__( 'event_type', 'metabox-online-generator' ),
+				'type' => 'select',
+				'placeholder' => esc_html__( 'Select an Item', 'metabox-online-generator' ),
+				'options' => array(
+					'Symposium' => 'Symposium',
+					'Neetup' => 'Meetup',
+					'Conference' => 'Conference',
+					'International Day' => 'International Day',
+					
+				),
+			),
+			array(
+				'id' => $prefix . 'event_url',
+				'type' => 'url',
+				'name' => esc_html__( 'Event URL', 'metabox-online-generator' ),
+			),
+			array(
+				'id' => $prefix . 'register_url',
+				'type' => 'url',
+				'name' => esc_html__( 'Registration URL', 'metabox-online-generator' ),
+			),
+			array(
+				'id' => $prefix . 'event_cost',
+				'type' => 'text',
+				'name' => esc_html__( 'Ticket Price', 'metabox-online-generator' ),
+			),
+			array(
+				'id' => $prefix . 'event_location',
+				'type' => 'text',
+				'name' => esc_html__( 'Event Location', 'metabox-online-generator' ),
+			),
+			array(
+				'id' => $prefix . 'event_date_start',
+				'type' => 'date',
+				'name' => esc_html__( 'Start Date', 'metabox-online-generator' ),
+				'timestamp' => 'true',
+			),
+			array(
+				'id' => $prefix . 'end_date',
+				'type' => 'date',
+				'name' => esc_html__( 'End Date', 'metabox-online-generator' ),
+				'timestamp' => 'true',
+			),
+			array(
+				'id' => $prefix . 'start_time',
+				'name' => esc_html__( 'Start Time', 'metabox-online-generator' ),
+				'type' => 'time',
+			),
+			array(
+				'id' => $prefix . 'end_time',
+				'name' => esc_html__( 'End Time', 'metabox-online-generator' ),
+				'type' => 'time',
+			),
+			array(
+				'id' => $prefix . 'recurs',
+				'name' => esc_html__( 'Recurs Every Year On Same Day', 'metabox-online-generator' ),
+				'type' => 'checkbox',
+				'desc' => esc_html__( 'Default Description', 'metabox-online-generator' ),
+			),
+		),
+	);
+
+	return $meta_boxes;
+}
+add_filter( 'rwmb_meta_boxes', 'eventMeta' );
 
 
 ?>

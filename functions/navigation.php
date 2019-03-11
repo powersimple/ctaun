@@ -127,7 +127,7 @@ function getMenus($nav_menu_selected_id){
 	//print $sql;
 
 		$q = $wpdb->get_results($sql);
-		print "<ul id='sdg-menu'>";
+		print "<ul id='sdg-menu' class='constrain'>";
 			//print "<li class='parent-link'><a href='$parent_link'>$title</a></li>";
 			$counter=0;
 			foreach($q as $key => $item){
@@ -209,7 +209,7 @@ function getMenus($nav_menu_selected_id){
 		$sql = "select ID, post_title from wp_posts where post_status = 'publish' and post_parent = 0 and post_type='sdg' order by menu_order";
 		$q = $wpdb->get_results($sql);
 			  $counter=1;
-			print "<nav id='sdg-nav' role='navigation'>
+			print "<nav id='sdg-nav' class='constrain' role='navigation'>
 				<ul>";
 			foreach($q as $key => $item){
 				$selected = '';
@@ -235,4 +235,132 @@ function getMenus($nav_menu_selected_id){
 			return $args;
 		}
 		add_filter("widget_categories_args","exclude_widget_categories");
+
+		function getTermMenu($term){
+			if($term->taxonomy == 'category'){
+				if ( is_active_sidebar('cat_subnav')){
+					dynamic_sidebar("cat_subnav");
+					}
+			}
+		}
+
+		function dynamicSubnav(){
+			global $post;
+			global $wpdb;
+			$sql = '';
+			$term = get_queried_object();
+		
+			if(@$post->post_type == 'sdg'){
+
+				sdgSubnav();
+			
+			} else if($post == NULL){
+				
+				 
+				 
+				 if($term != NULL){
+					 getTermMenu($term);
+				 }
+				 resourceAccordion();
+			} else {
+
+			$subnav = get_post_meta(@$post->ID,"subnav",true);
+				$sql = '';
+
+			if(@$post->post_type){ // subnav variable is declared in admin
+			
+				if($subnav != ''){
+				
+
+					if($post->post_type == 'page'){
+						if($subnav == 'award' || $subnav == 'conference'){
+							$sql = "select ID, post_title from wp_posts where post_status = 'publish' and post_type='$subnav' order by menu_order";
+						
+						} else if($subnav == 'resources'){
+							resourceAccordion();
+							
+						} else {
+
+						}
+					}
+
+						
+				} else {
+		
+					if($post->post_type == 'resource' || $post->post_type == 'profile'){
+						resourceAccordion();
+					
+					} else if($post->post_type == 'conference'|| $post->post_type == 'award'){	
+$sql = "select ID, post_title from wp_posts where post_status = 'publish' and post_parent = 0 and post_type='$post->post_type' order by menu_order";
+					} else {
+				
+						if($post->post_parent == 0){
+			//	print "subnav else parent 0"; 
+							$parent =  $post->ID;
+							$parent_link = '';
+							$title = $post->post_title;
+							$sql = "select ID, post_title from wp_posts where post_status = 'publish' and post_parent = $parent and post_type='$post->post_type' order by menu_order";
+						} else{
+							
+							$parent = $post->post_parent;
+							$parent_link = get_permalink( $post->post_parent);
+							$title = $wpdb->get_var("select post_title from wp_posts where ID = $post->post_parent");
+							 $sql = "select ID, post_title from wp_posts where post_status = 'publish' and post_type='$post->post_type' and post_parent = $parent";
+						}
+					}
+				}
+				
+
+				
+
+			} else if (@$post->post_type != 'page') { // use post_type
+				
+
+					$sql = "select ID, post_title from wp_posts where post_status = 'publish' and post_type='$post->post_type' and post_parent=0 order by menu_order";
+				
+			} else{
+				
+
+			
+				
+			}
+			
+			menuList($sql,$subnav);
+			}
+		}
+
+		function menuList($sql,$class){
+			if($sql != ''){
+				global $wpdb;
+				global $post;
+				$q = $wpdb->get_results($sql);
+				print "<ul class='$class'>";
+			
+				foreach($q as $key => $item){
+					$class="";
+					$link = get_permalink($item->ID);
+					if($item->ID == $post->ID){
+						
+						$class = ' selected';
+					}
+					print "<li><a href='$link' class='item $class'>$item->post_title</a></li>";
+				}
+				
+				print "</ul>";
+			}
+		}
+
+		function resourceAccordion(){
+			$taxonomies = "category,resource_type,";
+			ob_start();
+			?>
+			<div id="resource-accordion">
+			
+			</div>
+<?php
+			print ob_get_clean();
+
+		}
+
+
 ?>

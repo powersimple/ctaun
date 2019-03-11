@@ -158,8 +158,37 @@
 
 		}
 
+		function displayFeaturedImage(){
+			global $post;
+			  $img = getFeaturedImage($post->ID,"large");
+                extract($img);
+                                    //local hero
+                                
+			if($src != ''){
+				//  print $src;
+				print "<div class='featured'>";
+					print "<div class='featured-wrap'>";
+					
+						print "<img src='$src' alt='$alt'>";
+						if($desc != ''){
+							print "<span class='credit reverse'>".strip_tags($desc)."</span>";
 
-
-
-
+						}
+					print '</div>';
+					print "<div class='caption'>";
+					if(trim($title) != ''){
+					
+						print "<span class='img-title'>$title</span>";
+					}
+					if(trim($caption) != ''){
+					
+						print "<caption>$caption</caption>";
+					}
+					print "</div>";
+				print "</div>";
+				
+			} else {
+				print "<div class='top-spacer'></div>";
+			}
+		}
 ?>

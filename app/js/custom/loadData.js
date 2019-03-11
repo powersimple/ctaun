@@ -18,7 +18,9 @@ var posts = {},
     data_score = 7,
     data_loaded = [],
     state = {},
-    social = {}
+    social = {},
+    taxonomies = {},
+    taxonomy_accordion = ''
 
 state.featured = {
     'transition': {
@@ -43,7 +45,7 @@ function getStaticJSON(route, callback, dest) {
         url: json_data, // the url
         data: '',
         success: function (data, textStatus, request) {
-            console.log(data)
+            console.log("data",data)
             //      data_loaded.push(callback);
             return data,
 
@@ -81,6 +83,32 @@ getStaticJSON('media', setMedia) // returns the tags
 
 getStaticJSON('content', setData) // returns all content
 
+function setTaxonomies(data){
+    var tax_name = ''
+    for(var t in data.taxonomies){
+        tax_name = t
+        switch (t){// this is necessary to translate the name because the API namespace doesn't map to the taxonomy slug
+            case "category":
+                tax_name = 'categories'
+                break
+            case "post_tag":
+                tax_name = 'tags'
+            case "nav_sdg":
+                tax_name = 'sdg'
+
+        }
+        taxonomies[t] = {
+            
+
+
+            "data": data[tax_name],
+            "name": data.taxonomies[t].name
+       }
+    }
+    setTaxonomyAccordion(); // in taxonomies.js
+//  console.log("taxonomies",taxonomies)
+}
+
 function setData(data) { //sets all content arrays
 /*
     setPosts(data.posts)
@@ -91,6 +119,10 @@ function setData(data) { //sets all content arrays
     
     setMedia(data.media)
     */
+
+    setTaxonomies(data)
+
+
    setTags(data.tags)
    setCategories(data.categories)
     setMenus(data.menus)

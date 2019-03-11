@@ -21,15 +21,21 @@ $GLOBALS['REST_CONFIG'] =array(//An array of url arguments
            "sdg"=>"fields=id,title.rendered,slug,content&".$GLOBALS['REST_post_filter'],
             //"social"=>"fields=id,type,title,content,slug,excerpt,featured_media,social_url&".$GLOBALS['REST_post_filter'],
             "countries"=>"fields=id,name,slug,posts,children&filter[posts_per_page]=-1",
-            "gradelevel"=>"fields=id,name,slug,taxonomy,filter[posts_per_page]=-1",
-            "taxonomies"=>"?fields=name,slug,types,rest_base,hierarchical",
-            "categories"=>"fields=id,name,count,taxonomy,slug,description,posts,children",
+            "gradelevel"=>"fields=id,name,slug,parent,posts&filter[posts_per_page]=-1",
+            "taxonomies"=>"fields=name,slug,types,rest_base,hierarchical",
+            "resource_type"=>"fields=id,type,name,slug,posts&filter[orderby]=ID&order=asc&per_page=100",
+            "categories"=>"fields=id,name,count,posts,slug,description,posts,children",
             "tags"=>"fields=id,name,slug,posts&".$GLOBALS['REST_post_filter'],
             "menus"=>"menus",
             "media"=>"fields=id,data&".$GLOBALS['REST_post_filter']
         );
-
-
+add_filter( 'rest_endpoints', function( $endpoints ){
+    if ( ! isset( $endpoints['/wp/v2/countries'] ) ) {
+        return $endpoints;
+    }
+    unset( $endpoints['/wp/v2/countries'][0]['args']['per_page']['maximum'] );
+    return $endpoints;
+});
 // for WPML Comment this out if you aren't using it.
 require_once("functions-wpml-languages.php");
 

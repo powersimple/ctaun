@@ -17,7 +17,7 @@
                             ?>
                   
                     
-                    <div class="panel-body">
+                    <div class="sdg-resources">
                         <?php
                        
                        
@@ -54,7 +54,7 @@
                         $src = getThumbnail($post->ID);
                             print "<img src='$src' alt='$post->post_title icon' class='sdg-icon'>";
                         ?>
-                        <?php dynamic_sidebar("sdg_subnav");?>
+                        <?php dynamic_sidebar("page-sidebar");?>
                 </aside>
                 
             </div>

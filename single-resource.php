@@ -18,6 +18,7 @@
                   
                     
                     <div class="panel-body">
+                            
                     <?php
                         global $wpdb;
                         $sql = "select id,post_id, title, link, description from resource_data ";
@@ -33,10 +34,7 @@
                           
                             // print $value->title."<BR>$value->description";
                        
-                        }
-// Insert the post into the database
-
-                     //  echo the_content()?>
+                        }?>
                     
                     
                     </div>

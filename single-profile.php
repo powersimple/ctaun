@@ -18,8 +18,12 @@
                   
                     
                     <div class="panel-body">
+                        <div class="top-spacer"></diV>
+                    <div class="panel-content">
+                        
                         <?php
                        $profile_meta = getMetaData($post->ID);
+
 displayExternalLinks($profile_meta);
                        print "<br>";
                        echo the_content();
@@ -35,11 +39,13 @@ displayExternalLinks($profile_meta);
                     }
 
                     ?>
+                    </div>
                 </div>
-                <div class="col-sm-4 col-md-3  sidebar scaffold">
+                <div class="col-sm-4 col-md-3  sidebar scaffold reverse">
                     <div class="box">
                         
-                        <?php dynamic_sidebar("post-subnav");?>
+                                                <?php dynamic_sidebar("page-sidebar");?>
+
                     </div>
                 
             </div>

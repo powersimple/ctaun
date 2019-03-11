@@ -19,7 +19,7 @@ foreach($pages as $key => $value){
   
 
   ?>
-      <section class="module whitebg" id="<?php echo $slug?>">
+      <section class="module whitebg homebox" id="<?php echo $slug?>">
           <div class="wrap">
             <h2><?php print $title?></h2>
             <?php

@@ -17,7 +17,7 @@ function setMenus(data) {
     //console.log("raw menu data",data)
  
     for (var i = 0; i < data.length; i++) {
-        menus[data[i].slug] = {},
+        menus[data[i].slug] = {}
         menus[data[i].slug].menu_array = []
         menus[data[i].slug].name = data[i].name
         menus[data[i].slug].slug = data[i].slug
@@ -157,14 +157,15 @@ function setLinearDataNav(m,data) { // sets local data into linear array for whe
      //console.log("slug_nav",m, menus[m].slug_nav);
 }
 function getSlug(item,_of,_array,_it){
+    var slug = ''
     if(item!=undefined){
-        var slug = item.slug
+        slug = item.slug
         if (posts[item.object_id] != undefined){
             slug = posts[item.object_id].slug
         }
     } else {
-  //  console.log("get slug item undefined",slug,item.object_id,item,_of,_array,_it)
-}    
+    //  console.log("get slug item undefined",slug,item.object_id,item,_of,_array,_it)
+    }    
   return slug
     
 }
@@ -205,7 +206,7 @@ function buildMenuData() {
 
                 var children = [];
                 var this_menu = menus[m].menu_array
-                
+                var slug = ''
                 for (var a = 0; a < this_menu.length; a++) {
                     children = [];
 
@@ -213,7 +214,7 @@ function buildMenuData() {
                         var grandchildren = [];
                         var nested_children = menus[m].items[this_menu[a].children[c]].children;
                         for (var g = 0; g < nested_children.length; g++) {
-                            var slug = getSlug(menus[m].items[nested_children[g]],g,"g",nested_children,g)
+                            slug = getSlug(menus[m].items[nested_children[g]],g,"g",nested_children,g)
                             grandchildren.push( // data for childe menus
                                 {
                                     "title": menus[m].items[nested_children[g]].title,
@@ -227,7 +228,6 @@ function buildMenuData() {
                             )
 
                         }
-
                         
                     slug = getSlug(menus[m].items[this_menu[a].children[c]],"c",this_menu[a].children[c],c)
                       //console.log('bad slug', menus[m].items[this_menu[a].children[c]])

@@ -35,7 +35,7 @@
         </div>
         <hr class="divider-d">
    
-        <footer class="credit">
+        <footer>
        
             <div class="row">
               <div class="col-sm-12">

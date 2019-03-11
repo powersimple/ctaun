@@ -46,7 +46,7 @@
 
                     ?>
                 </div>
-                <div class="col-sm-4 col-md-3  sidebar scaffold">
+                <div class="col-sm-4 col-md-3  sidebar scaffold reverse">
                     <div class="box">
                        <?php dynamic_sidebar("page-sidebar");?>
                     </div>

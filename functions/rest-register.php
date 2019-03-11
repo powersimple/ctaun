@@ -30,6 +30,9 @@ function register_posts_by_category() {
 		)
 	);
 }
+
+
+
  
 
 add_action( 'rest_api_init', 'register_category_children' );
@@ -76,6 +79,117 @@ function get_posts_by_category( $object ) {
 		
 	return get_posts($args); 
 }
+
+
+/*resource_type*/
+
+
+function get_posts_by_gradelevel( $object ) {
+
+	$args = array(
+    'post_type'      => array('post','page','profile','resource'), // where post types are represented
+    'posts_per_page' => -1,
+    'post_status'    => 'publish',
+    'fields' => 'ids',
+    'tax_query' => array(
+			array(
+				'taxonomy' => 'gradelevel',
+				'field'    => 'term_id',
+				'terms'    => $object['id']
+			)
+		)
+	);
+	
+		
+	return get_posts($args); 
+}
+
+
+add_action( 'rest_api_init', 'register_posts_by_gradelevel' );
+ 
+function register_posts_by_gradelevel() {
+ 
+	register_rest_field( 'gradelevel', 'posts', array(
+		'get_callback' => 'get_posts_by_gradelevel',
+		'schema' => null,
+		)
+	);
+}
+
+/*resource_type*/
+
+
+function get_posts_by_resource_type( $object ) {
+
+	$args = array(
+    'post_type'      => array('post','page','profile','resource'), // where post types are represented
+    'posts_per_page' => -1,
+    'post_status'    => 'publish',
+    'fields' => 'ids',
+    'tax_query' => array(
+			array(
+				'taxonomy' => 'resource_type',
+				'field'    => 'term_id',
+				'terms'    => $object['id']
+			)
+		)
+	);
+	
+		
+	return get_posts($args); 
+}
+
+
+add_action( 'rest_api_init', 'register_posts_by_resource_type' );
+ 
+function register_posts_by_resource_type() {
+ 
+	register_rest_field( 'resource_type', 'posts', array(
+		'get_callback' => 'get_posts_by_resource_type',
+		'schema' => null,
+		)
+	);
+}
+
+/*COUNTRIES*/
+
+
+function get_posts_by_country( $object ) {
+
+	$args = array(
+    'post_type'      => array('post','page','profile','resource'), // where post types are represented
+    'posts_per_page' => -1,
+    'post_status'    => 'publish',
+    'fields' => 'ids',
+    'tax_query' => array(
+			array(
+				'taxonomy' => 'countries',
+				'field'    => 'term_id',
+				'terms'    => $object['id']
+			)
+		)
+	);
+	
+		
+	return get_posts($args); 
+}
+
+
+add_action( 'rest_api_init', 'register_posts_by_country' );
+ 
+function register_posts_by_country() {
+ 
+	register_rest_field( 'countries', 'posts', array(
+		'get_callback' => 'get_posts_by_country',
+		'schema' => null,
+		)
+	);
+}
+
+
+
+
+
 
 /*
 	CUSTOM MENU ROUTING

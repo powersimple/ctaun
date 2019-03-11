@@ -22,10 +22,11 @@
                     <?php echo the_title()?></h2>
                     
                     <div class="panel-body">
+                            <div class="panel-content">
                         <?php
                         displaySpeaker(getSpeaker(get_the_id()),"medium","long");
                         ?>
-                    
+                        </div>
                     
                     </div>
                             

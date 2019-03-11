@@ -72,8 +72,8 @@
         'after_title'   => '</h5>',
         ) );
         register_sidebar( array(
-            'name' => __( 'Post Subnav', 'boilerplate' ),
-            'id' => 'post_subnav',
+            'name' => __( 'Category Subnav', 'boilerplate' ),
+            'id' => 'cat_subnav',
             'description' => __( '', 'boilerplate' ),
             'before_widget' => '',
             'after_widget'  => '',
@@ -86,6 +86,15 @@
             'description' => __( '', 'boilerplate' ),
             'before_widget' => '',
             'after_widget'  => '',
+            'before_title'  => '',
+            'after_title'   => '',
+        ) );
+        register_sidebar( array(
+            'name' => __( 'Register', 'boilerplate' ),
+            'id' => 'register',
+            'description' => __( '', 'boilerplate' ),
+            'before_widget' => '<div id="register-button">',
+            'after_widget'  => '</div>',
             'before_title'  => '',
             'after_title'   => '',
         ) );

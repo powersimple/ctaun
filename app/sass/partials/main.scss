@@ -14,7 +14,7 @@
     }
 
 }
-.credit{
+footer{
     background-color:$ctaun_green;
     color:#fff;
     text-shadow: 1px 1px #000;
@@ -22,14 +22,21 @@
     
     vertical-align: bottom;
     width:100%;
-    padding-top:1em;
+    padding:3em;
     i{
         color:#fff;
     }
+    
 }
-
+.footer-widgets a {
+    color: #ff0;
+}
+.footer-widgets a:hover {
+    color: #fff;
+    text-decoration: underline;
+}
 .session-thumb{
-    height:50px;
+    height:100px;
     float:left;
     margin-right:1em;
     img{
@@ -114,26 +121,98 @@ nav.profile-meta{
     width:100%;
     a{
         display: table-cell;
+        padding:5px;
         text-align: center;
         margin-right:5px;
     }
 }
 
-
-
-.text-body{
-    background-color: #e3e3ef;
-    color:#333;
-    border-top-left-radius: 20px;
-    border-style:groove;
-    border-width:6px;
-    
+.outer-shadow{
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
 }
 
-.reverse{
-    color:#fff;
-    text-shadow: 1px 1px #666;
+
+.panel-body{
+    
+    color:#333;
+
+    border-radius:25px;
+    padding:0px;
+    margin-bottom:25px;
     a{
-    color:#fff;
+        color:$ctaun_blue;
+
+    }
+    a:hover{
+        color:$ctaun_green;
+    }
+}
+.panel-content{
+    padding:25px 50px;
+    background-color: $content_bg;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+    @media(min-width:768px) and (max-width:1200px) {
+        padding: 25px;
+    }
+
+    @media(max-width:767px) {
+        padding: 15px;
+    }
+
+}
+
+.alphanav {
+     ul {
+         padding-left: 0px;
+         width:100%;
+    
+                li {
+                    list-style: none;
+                    display:inline-block;
+                    padding:3px;
+                    margin-right:3px;
+                }
+        
+     }
+}
+
+.profile-nav{
+    ul{
+        padding:0px;
+        li{
+            list-style:none;
+        }
+    }
+}
+.letter{
+    font-size:120%;
+    font-weight:700;
+}
+.back-to-top{
+    display: block;
+    text-align:right;
+    clear:both;
+    
+}
+.profile-logo{
+    img{
+        width:auto;
+    }
+    float:left;
+    margin: 0px 10px 10px 0px;
+}
+.searchform{
+    margin-bottom:1em;
+    label{
+        display:none;
+    }
+   input[type=text]{
+        color:#333;
+        padding-left:3px;
+    }
+    input[type=submit]{
+        background-color:#333;
+        color:#fff;
     }
 }

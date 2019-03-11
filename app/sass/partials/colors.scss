@@ -5,7 +5,7 @@ $resources_purple: #9d1fd7;
 $conferences_green: #138119;
 $awards_bronze: #A56427;
 $about_blue:#2d2fd2;
-
+$content_bg: #e3e3ef;
 
 //Sustainable Development Goals Branding colors
 $SDG1: #E5243B; // RED | NO POVERTY
@@ -27,25 +27,23 @@ $SDG16: #00689D; // INDIGO | PEACE, JUSTICE AND STRONG INSTITUTIONS
 $SDG17: #19486A; // NAVY BLUE | PARTNERSHIPS FOR THE GOALS
 
 
-#megamenu .exo-menu>li.teacher-resourcesbg,
-.teacher-resourcesbg ul {
+#megamenu .exo-menu>li.teacher-resourcesbg, .resourcesbg {
     background: $resources_purple;
     color: #fff;
 
-
 }
-#megamenu .exo-menu>li.conferencesbg,
-.conferencesbg  ul{
+#megamenu .exo-menu>li.conferencebg,
+.conferencebg{
     background: $conferences_green;
     color:#fff;
 }
-#megamenu .exo-menu>li.awardsbg,
-.awardsbg ul {
+
+
+.awardbg, #megamenu .exo-menu>li.awardbg {
     background: $awards_bronze;
     color: #fff;
 }
-#megamenu .exo-menu>li.aboutbg,
-.aboutbg ul{
+#megamenu .exo-menu>li.aboutbg{
      background: $about_blue;
      color: #fff;
 }

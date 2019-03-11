@@ -16,8 +16,10 @@
                 )
             )
         );
+    
         $cards = array();
             foreach($resources as $key => $resource){
+                   
                 array_push($cards, array(
                     "result" => array(
                             "id"=>$resource->ID,
@@ -33,7 +35,39 @@
                     )
                 );
             }
+           
         return $cards;
+    }
+
+    
+    function getResourceFromSearchResult($resource,$search_query){
+
+  
+
+        return array(
+            "result" => array(
+                    "id"=>$resource->ID,
+                    "title"=>$resource->post_title,
+                    "slug"=>$resource->post_name,
+                    "content"=>$resource->post_content,
+                    "excerpt"=>$resource->post_excerpt,
+                    
+                    
+                ),
+            "meta"=> getResourceMeta($resource->ID),
+            "taxes"=> getResourceTaxonomy($resource->ID,$search_query)
+            );
+                
+            
+        
+      
+    }
+
+
+
+
+    function getResourceArray(){
+        
     }
 
 
@@ -72,10 +106,13 @@
             foreach($terms[$taxonomy] as $list =>$tax){
            //  extract((array) $taxonomy );
                 if(@$tax->term_id && $tax->slug != @$xthisSlug ){ 
-
+                    $thistax_path = $taxonomy;
+                    if($taxonomy == 'post_tag'){
+                       $thistax_path = "tag";// convert post_tag to tag
+                    }
                     array_push($results[$taxonomy], array(
                         "group" =>  "|".taxLabel($taxonomy),
-                        "link" => "/".$taxonomy."/$tax->slug",
+                        "link" => "/".$thistax_path."/$tax->slug",
                         "label" => $tax->name
                         )
                     );
@@ -105,6 +142,7 @@
 
         }
          function displayResourceCard($card){
+           
             extract($card);
            
 
@@ -112,55 +150,101 @@
             extract($meta);
            // var_dump($card);
 //            $types = implode(" ",);
-           
-            print "<article class='card'>";
-            print "<a href='$link' target='_blank' class='resource-link'>";
-            print $title;
-            print "</a><br>";
-            print "<div class='content-wrap'>";
-            print $content;
-            print "</div>";
-            print "<span class='taxes'>";
-            foreach ($taxes as $key => $tax) {
-                if(count($tax)){
-                print "<span class='tax-label'>".taxLabel($key)."</span> "; 
-                foreach($tax as $i => $tag){;
-                 
-                    print "<a href='$tag[link]'>$tag[label]</a> ";
+            if($link != ''){
+                print "<article class='card'>";
+                print "<a href='$link' target='_blank' class='resource-link' title='External Link - Opens in new Browser Tab'>";
+                print $title;
+                print "&nbsp; <i class='fas fa-external-link-alt'></i>";
+                print "</a>";
+                $current_user = wp_get_current_user();
+                if (user_can( $current_user, 'administrator' )) {
+                // user is an admin
+                      print " | <a href='/wp-admin/post.php?post=$id&action=edit' target='_blank' class='resource-link' title='External Link - Opens in new Browser Tab'>{edit}</a>";
+
                 }
-                //print"<br>";
-                }
-            }
-            print "</span>";
-          
-            if(count(@$profiles)){
-                print "<div class='resource-profiles'>";
-                foreach(@$profiles as $key => $profile_id){     
-                    print "<div class='resource-profile'>";
+                print "<br>";
+                print "<div class='content-wrap'>";
+                print $content;
+                print "</div>";
+                print "<span class='taxes'>";
+                foreach ($taxes as $key => $tax) {
+                    if(count($tax)){
+                    print "<span class='tax-label'>".taxLabel($key)."</span> "; 
+                    foreach($tax as $i => $tag){;
                     
-                    linkProfile($profile_id);
+                        print "<a href='$tag[link]'>$tag[label]</a> ";
+                    }
+                    //print"<br>";
+                    }
+                }
+                print "</span>";
+            
+                if(count(@$profiles)){
+                    print "<div class='resource-profiles'>";
+                    foreach(@$profiles as $key => $profile_id){     
+                        print "<div class='resource-profile'>";
+                        
+                        linkProfile($profile_id);
+                        print "</div>";
+                    }
                     print "</div>";
                 }
+                print "</article>";
+            } else {
+                  print "<article class='card'>";
+               // print "<a href='$link' target='_blank' class='resource-link' title='External Link - Opens in new Browser Tab'>";
+                print $title;
+            //    print "&nbsp; <i class='fas fa-external-link-alt'></i>";
+                //print "</a><br>";
+                print "<div class='content-wrap'>";
+                print $content;
                 print "</div>";
-            }
-            print "</article>";
+                print "<span class='taxes'>";
+                foreach ($taxes as $key => $tax) {
+                    if(count($tax)){
 
+                    print "<span class='tax-label'>".taxLabel($key)."</span> "; 
+                    foreach($tax as $i => $tag){;
+                    
+                        print "<a href='$tag[link]'>$tag[label]</a> ";
+                    }
+                    //print"<br>";
+                    }
+                }
+                print "</span>";
+            
+                if(count(@$profiles)){
+                    print "<div class='resource-profiles'>";
+                    foreach(@$profiles as $key => $profile_id){     
+                        print "<div class='resource-profile'>";
+                        
+                        linkProfile($profile_id);
+                        print "</div>";
+                    }
+                    print "</div>";
+                }
+                print "</article>";
+            }
         }
         function linkProfile($profile_id){
-             extract(getMetaData($profile_id));
+            $metadata =  getMetaData($profile_id);
+          //  var_dump($metadata);
+            extract($metadata);
 
             $link = get_permalink($profile_id);
-   
+ 
 
     print "<div class='profile-logo'>";
  
             
-           
-           $img = "<a href='$link' target='_blank' class='external external-image'>$name";
-            $img .= "<img src='$logo_url' alt='$name'>";//$meta_groups['links'][$field];
-            $img .= "</a>";
-
+           if(@$logo_url){
+                $img = "<a href='$link' target='_blank' class='external external-image'>$name";
+                $img .= "<img src='$logo_url' alt='$name'>";//$meta_groups['links'][$field];
+                $img .= "</a>";
             print $img;
+            } else {
+               print "<a href='$link' target='_blank' class='external'>$name</a>";
+            }
     
     print "</div>";
         }

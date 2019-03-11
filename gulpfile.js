@@ -1,5 +1,5 @@
-//var localhost = 'http://ctaun.192.168.1.11.xip.io:8901/' // SET local dev url here
-var localhost = 'http://ctaun.192.168.1.16.xip.io:8901/' // SET local dev url here
+var localhost = 'http://ctaun.192.168.1.11.xip.io:8901/' // SET local dev url here
+//var localhost = 'http://ctaun.192.168.1.16.xip.io:8901/' // SET local dev url here
 
 
 var gulp = require('gulp'),

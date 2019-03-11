@@ -1,5 +1,8 @@
 /*CTAUN */
-"use strict";
+(function () {
+    'use strict';
+    // this function is strict...
+ }());
 var menu = {},
 this_item = {}
 
@@ -8,6 +11,7 @@ function setVideo(url){
 }
 function initSite() {
     megaMenu();
+   
     if (menus == undefined) {
         window.setTimeout(initSite(), 100);
     }
@@ -21,19 +25,19 @@ jQuery(function () {
 
 });
 
-
+var winTop = jQuery(window).scrollTop();
 // Add the sticky class to the header when you reach its scroll position. Remove "sticky" when you leave the scroll position
 jQuery(function () {
-    $(window).scroll(function () {
-        var winTop = jQuery(window).scrollTop();
+    jQuery(window).scroll(function () {
+       
         if (winTop >= 30) {
             jQuery("#site-title").addClass("sticky-header");
-            jQuery("#sdg-nav").addClass("sticky-header");
+       //     jQuery("#sdg-nav").addClass("sticky-header");
             jQuery("#main-menu").addClass("sticky-header");
             jQuery("#pinned-nav").addClass("sticky-header");
         } else {
               jQuery("#site-title").removeClass("sticky-header");
-              jQuery("#sdg-nav").removeClass("sticky-header");
+        //      jQuery("#sdg-nav").removeClass("sticky-header");
             jQuery("#main-menu").removeClass("sticky-header");
             jQuery("#pinned-nav").removeClass("sticky-header");
         } //if-else
@@ -41,6 +45,16 @@ jQuery(function () {
 }); //ready func.
 
 
+
+
+jQuery(document).ready(function () {
+     jQuery("#resource-accordion").accordion({
+         header: "h3",
+         collapsible: true,
+         autoHeight: false,
+         navigation: true
+     });
+});
 
 // pass the type in the route
 // param = url arguments for the REST API
@@ -62,7 +76,9 @@ var posts = {},
     data_score = 7,
     data_loaded = [],
     state = {},
-    social = {}
+    social = {},
+    taxonomies = {},
+    taxonomy_accordion = ''
 
 state.featured = {
     'transition': {
@@ -87,7 +103,7 @@ function getStaticJSON(route, callback, dest) {
         url: json_data, // the url
         data: '',
         success: function (data, textStatus, request) {
-            console.log(data)
+            console.log("data",data)
             //      data_loaded.push(callback);
             return data,
 
@@ -125,6 +141,32 @@ getStaticJSON('media', setMedia) // returns the tags
 
 getStaticJSON('content', setData) // returns all content
 
+function setTaxonomies(data){
+    var tax_name = ''
+    for(var t in data.taxonomies){
+        tax_name = t
+        switch (t){// this is necessary to translate the name because the API namespace doesn't map to the taxonomy slug
+            case "category":
+                tax_name = 'categories'
+                break
+            case "post_tag":
+                tax_name = 'tags'
+            case "nav_sdg":
+                tax_name = 'sdg'
+
+        }
+        taxonomies[t] = {
+            
+
+
+            "data": data[tax_name],
+            "name": data.taxonomies[t].name
+       }
+    }
+    setTaxonomyAccordion(); // in taxonomies.js
+//  console.log("taxonomies",taxonomies)
+}
+
 function setData(data) { //sets all content arrays
 /*
     setPosts(data.posts)
@@ -135,6 +177,10 @@ function setData(data) { //sets all content arrays
     
     setMedia(data.media)
     */
+
+    setTaxonomies(data)
+
+
    setTags(data.tags)
    setCategories(data.categories)
     setMenus(data.menus)
@@ -192,7 +238,8 @@ function megaMenu(){
     var megamenu = '<nav id="megamenu" class="content">'
     megamenu += '<ul class="exo-menu">';
     
-     megamenu += getMegaMenu(menus['megamenu'].menu_levels,classes);
+     megamenu += getMegaMenu(menus.megamenu.menu_levels,classes);
+     
     megamenu += '<a href="#" class="toggle-menu visible-xs-block"><i class="fa fa-bars"></i></a>'
 
 
@@ -210,7 +257,8 @@ function getMegaMenu(items,parent_classes){
     footwrap = '',
     link = "#",
     outer = 'li',
-    level = 0
+    level = 0,
+    target = ''
     for(var i=0; i<items.length;i++){
         
         this_item = items[i]
@@ -259,7 +307,9 @@ function getMegaMenu(items,parent_classes){
             break
             case "gradelevel" : link = this_item.url
             break
-            
+              case "custom": link = this_item.url
+              
+              break
 
             case "conference": link = this_item.url
             break
@@ -269,7 +319,16 @@ function getMegaMenu(items,parent_classes){
             // default: link = '#';
         }
     //    console.log(this_item)
-        menu_items += '<'+outer +' '+ classes + '><a href="' + link + '">' + this_item.title + '</a>'
+    
+        if(this_item.target != ''){
+            target = ' target="_blank"'
+        } 
+        if(link == ''){
+            //menu_items += '<' + outer + ' ' + classes + '><span>' + this_item.title + '</span>' this needs to open the dropdown
+             menu_items += '<' + outer + ' ' + classes + '><a href="' + link + '"' + target + '>' + this_item.title + '</a>'
+        } else {
+         menu_items += '<' + outer + ' ' + classes + '><a href="' + link + '"'+target+'>' + this_item.title + '</a>'
+        }
 
         if (this_item.children != undefined) {
         
@@ -285,7 +344,6 @@ function getMegaMenu(items,parent_classes){
         menu_items += '</li>'
 
 
-        
     }
   
     return menu_items;
@@ -310,7 +368,7 @@ function setMenus(data) {
     //console.log("raw menu data",data)
  
     for (var i = 0; i < data.length; i++) {
-        menus[data[i].slug] = {},
+        menus[data[i].slug] = {}
         menus[data[i].slug].menu_array = []
         menus[data[i].slug].name = data[i].name
         menus[data[i].slug].slug = data[i].slug
@@ -450,14 +508,15 @@ function setLinearDataNav(m,data) { // sets local data into linear array for whe
      //console.log("slug_nav",m, menus[m].slug_nav);
 }
 function getSlug(item,_of,_array,_it){
+    var slug = ''
     if(item!=undefined){
-        var slug = item.slug
+        slug = item.slug
         if (posts[item.object_id] != undefined){
             slug = posts[item.object_id].slug
         }
     } else {
-  //  console.log("get slug item undefined",slug,item.object_id,item,_of,_array,_it)
-}    
+    //  console.log("get slug item undefined",slug,item.object_id,item,_of,_array,_it)
+    }    
   return slug
     
 }
@@ -498,7 +557,7 @@ function buildMenuData() {
 
                 var children = [];
                 var this_menu = menus[m].menu_array
-                
+                var slug = ''
                 for (var a = 0; a < this_menu.length; a++) {
                     children = [];
 
@@ -506,7 +565,7 @@ function buildMenuData() {
                         var grandchildren = [];
                         var nested_children = menus[m].items[this_menu[a].children[c]].children;
                         for (var g = 0; g < nested_children.length; g++) {
-                            var slug = getSlug(menus[m].items[nested_children[g]],g,"g",nested_children,g)
+                            slug = getSlug(menus[m].items[nested_children[g]],g,"g",nested_children,g)
                             grandchildren.push( // data for childe menus
                                 {
                                     "title": menus[m].items[nested_children[g]].title,
@@ -520,7 +579,6 @@ function buildMenuData() {
                             )
 
                         }
-
                         
                     slug = getSlug(menus[m].items[this_menu[a].children[c]],"c",this_menu[a].children[c],c)
                       //console.log('bad slug', menus[m].items[this_menu[a].children[c]])
@@ -657,4 +715,35 @@ function setTags(data) {
     console.log('tags', tags)
 
     return data
+}
+function setTaxonomyAccordion(){
+    console.log(taxonomies);
+    showTaxonomies = "category,resource_type,gradelevel";
+    tax_array = showTaxonomies.split(",")
+    
+    var thisdata = []
+    for(var i=0;i<tax_array.length;i++){
+   //     console.log("accordion", taxonomies[tax_array[i]].name)
+        
+        taxonomy_accordion += '<h3>' + taxonomies[tax_array[i]].name+'</h3>'
+        taxonomy_accordion += '<div>'
+        thisdata = taxonomies[tax_array[i]].data
+        for(var d=0;d<thisdata.length;d++){
+
+            
+
+            if (thisdata[d].posts == undefined) {
+               
+                console.log(undefined[tax_array[i]], tax_array[i], thisdata[d].name)
+            }
+            if (thisdata[d].posts.length){
+             taxonomy_accordion += '<a href="/' + tax_array[i] + '/' + thisdata[d].slug + '">' + thisdata[d].name+ '</a><br>'
+                }
+            }
+
+        //console.log(thisdata)
+        taxonomy_accordion += '</div>'
+    }
+    jQuery('#resource-accordion').html(taxonomy_accordion)
+    
 }

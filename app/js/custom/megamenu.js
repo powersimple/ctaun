@@ -3,7 +3,8 @@ function megaMenu(){
     var megamenu = '<nav id="megamenu" class="content">'
     megamenu += '<ul class="exo-menu">';
     
-     megamenu += getMegaMenu(menus['megamenu'].menu_levels,classes);
+     megamenu += getMegaMenu(menus.megamenu.menu_levels,classes);
+     
     megamenu += '<a href="#" class="toggle-menu visible-xs-block"><i class="fa fa-bars"></i></a>'
 
 
@@ -21,7 +22,8 @@ function getMegaMenu(items,parent_classes){
     footwrap = '',
     link = "#",
     outer = 'li',
-    level = 0
+    level = 0,
+    target = ''
     for(var i=0; i<items.length;i++){
         
         this_item = items[i]
@@ -70,7 +72,9 @@ function getMegaMenu(items,parent_classes){
             break
             case "gradelevel" : link = this_item.url
             break
-            
+              case "custom": link = this_item.url
+              
+              break
 
             case "conference": link = this_item.url
             break
@@ -80,7 +84,16 @@ function getMegaMenu(items,parent_classes){
             // default: link = '#';
         }
     //    console.log(this_item)
-        menu_items += '<'+outer +' '+ classes + '><a href="' + link + '">' + this_item.title + '</a>'
+    
+        if(this_item.target != ''){
+            target = ' target="_blank"'
+        } 
+        if(link == ''){
+            //menu_items += '<' + outer + ' ' + classes + '><span>' + this_item.title + '</span>' this needs to open the dropdown
+             menu_items += '<' + outer + ' ' + classes + '><a href="' + link + '"' + target + '>' + this_item.title + '</a>'
+        } else {
+         menu_items += '<' + outer + ' ' + classes + '><a href="' + link + '"'+target+'>' + this_item.title + '</a>'
+        }
 
         if (this_item.children != undefined) {
         
@@ -96,7 +109,6 @@ function getMegaMenu(items,parent_classes){
         menu_items += '</li>'
 
 
-        
     }
   
     return menu_items;

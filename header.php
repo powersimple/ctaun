@@ -55,15 +55,23 @@
       $class_bg ="$class_id"."bg";
 
     } else if (@$post->post_type == 'page'){
-      
-      if($post->post_parent == 0){
+      	
+      $subnav = get_post_meta(@$post->ID,"subnav",true);
+      $class_bg = $subnav."bg";
+      if($subnav != ''){
+
+      } else if($post->post_parent == 0){
         $class_bg = $post->post_name."bg";
       } else {
         $parent_name = get_post($post->post_parent)->post_name;
         $class_bg = $parent_name."bg";
       }
-    } else {
+    } else if (@$post->post_type == 'resource' || @$post->post_type == 'profile'){
 
+  $class_bg = 'resourcesbg';
+    } else {
+        $parent_name = '';// get_post($post->post_parent)->post_name;
+        $class_bg = $post->post_type."bg";
     }
 
 
@@ -81,16 +89,25 @@
     <!-- Main stylesheet and color file-->
     <link href="<?php echo get_stylesheet_directory_uri();?>/style.css" rel="stylesheet">
 
+    <?php
+    // If it's not a post, use the taxonomy data.
+    if(@$post->ID){
+      $this_id = $post->ID;
+      $this_type = $post->post_type;
 
+    } else{
+      $term = get_queried_object();
+      $this_id = $term->term_id;
+      $this_type = $term->taxonomy;
+      $class_bg = 'resourcesbg';
+    }
+    ?>
 
 <script>
     // Wordpress PHP variables to render into JS at outset.
-    if(<?php echo @$post->ID?>){
-        var active_id = <?php echo @$post->ID?>;
-    } else {
-      
-    }
-    var active_object = "<?php echo $post->post_type?>";
+
+    var active_id = <?php echo $this_id; ?>;
+    var active_object = "<?php echo @$post->post_type?>";
     var home_page = <?php echo get_option( 'page_on_front' );?>;
     var site_title = "<?php echo get_bloginfo('name');?>";
     var json_path = "<?php echo get_stylesheet_directory_uri();?>/data/";
@@ -112,6 +129,11 @@
         <div class="navbar navbar-custom navbar-fixed-top" role="navigation">
         <div class="container">   
           <div id="pinned-nav"></div>   
+          <?php
+         if ( is_active_sidebar('register')){
+            dynamic_sidebar("register");
+            }
+         ?>
           <div id="logo" class="onpage-navigation"><img src="/images/photos/CTAUN-Logo-01.svg"></div> 
 
                     <div id="site-title" class="onpage-navigation"><a href="/"><span class="acronym">CTAUN</span><span class="separator">|</span><span class="name">Committee on Teaching<br>About the United Nations</span></a></div>
@@ -159,7 +181,16 @@ if(is_front_page()){
                  
                   <div class="hero-slide">
                   
-                  <?php echo $title?></div><a class="section-scroll btn " href="#<?php echo sanitize_title($title);?>"><?php echo wpautop($caption);
+                  <?php echo $title?></div>
+                  <?php
+                  $slug = sanitize_title($title);
+                    if($slug != ''){
+                      print "<a class='section-scroll btn' href='#".sanitize_title($title)."'>".wpautop($caption).'</a>';
+                    } else {
+                      print wpautop($caption);
+                    }
+                   
+                    
                    if($desc != ''){
                     print "<span class='desc'>$desc</span>";
                   }
@@ -184,7 +215,7 @@ if(is_front_page()){
 
 
 <?php } else { ?>
-<section class="module bg-dark-60 about-page-header" data-background="<?php echo $hero;?>"></section>
+<section class="module hero page-header" data-background="<?php echo $hero;?>"></section>
   
 <?php }  
   sdgMenu();
@@ -195,9 +226,10 @@ if(is_front_page()){
 ?>
    <main>
     
-<div class="main">
+<div class="main constrain">
     <section class="module">
         <div class="container">
+     
 
             
                 

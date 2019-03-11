@@ -140,6 +140,7 @@ if ( ! class_exists( 'WP_REST_Menus' ) ) :
                     $url = str_replace("http:","",$value->url);
                     $url = str_replace("https:","",$value->url);
                     $url = str_replace(get_site_url(),"",$value->url);
+                    
                     array_push($custom_items,
                         array(
                             "ID"=>$value->ID,
@@ -152,7 +153,8 @@ if ( ! class_exists( 'WP_REST_Menus' ) ) :
                             "slug"=>$value->post_name,
                             "post_parent" => $value->post_parent,
                             "classes" => implode(" ",$value->classes),       
-                            "description" => $value->description
+                            "description" => $value->description,
+                            'target' => $value->target
                             )
                     );
                 }
